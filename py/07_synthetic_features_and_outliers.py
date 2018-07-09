@@ -160,6 +160,7 @@ def train_model(learning_rate, steps, batch_size, input_feature):
     plt.title("Root Mean Squared Error vs. Periods")
     plt.tight_layout()
     plt.plot(root_mean_squared_errors)
+    plt.show()
 
     # Create a table with calibration data.
     calibration_data = pd.DataFrame()
@@ -193,16 +194,19 @@ calibration_data = train_model(
 plt.figure(figsize=(15, 6))
 plt.subplot(1, 2, 1)
 plt.scatter(calibration_data["predictions"], calibration_data["targets"])
+plt.show()
 
 # Plot Histogram
 plt.subplot(1, 2, 2)
 _ = california_housing_dataframe["rooms_per_person"].hist()
+plt.show()
 
 # Clipping Outliers
 california_housing_dataframe["rooms_per_person"] = (
     california_housing_dataframe["rooms_per_person"]).apply(lambda x: min(x, 5))
 
 _ = california_housing_dataframe["rooms_per_person"].hist()
+plt.show()
 
 # Verify that the clipping worked
 calibration_data = train_model(
@@ -211,3 +215,4 @@ calibration_data = train_model(
     batch_size=5,
     input_feature="rooms_per_person")
 _ = plt.scatter(calibration_data["predictions"], calibration_data["targets"])
+plt.show()
