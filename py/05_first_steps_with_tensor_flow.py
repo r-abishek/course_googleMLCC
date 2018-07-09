@@ -98,5 +98,5 @@ predictions = np.array([item['predictions'][0] for item in predictions])
 # Print MSE and RMSE
 mse = metrics.mean_squared_error(predictions, targets)
 rmse = math.sqrt(mse)
-print "Mean Squared Error (on training data): %0.3f" % mse
-print "Root Mean Squared Error (on training data): %0.3f" % rmse
+print "Mean Squared Error (on training data):" + mse
+print "Root Mean Squared Error (on training data):" + rmse
