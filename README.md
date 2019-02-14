@@ -16,3 +16,9 @@
 ### 04_mandelbrot_set.ipynb
 * Visualize the mandelbrot set using TensorFlow
 
+### 05_creating_and_manipulating_tensors.ipynb
+* Creating and manipulating tensors
+* Refreshing memory about addition and multiplication in linear algebra
+* TensorFlow math and array operations
+
+
