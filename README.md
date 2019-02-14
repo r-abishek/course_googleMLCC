@@ -12,3 +12,7 @@
 ### 03_tensorflow_programming_concepts.ipynb
 * Tensors, Operations, Graphs and Sessions
 * Building a TensorFlow graph
+
+### 04_mandelbrot_set.ipynb
+* Visualize the mandelbrot set using TensorFlow
+
