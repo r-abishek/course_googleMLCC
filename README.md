@@ -8,3 +8,7 @@
 
 ### 02_hello_world.ipynb
 * HelloWorld TensorFlow program
+
+### 03_tensorflow_programming_concepts.ipynb
+* Tensors, Operations, Graphs and Sessions
+* Building a TensorFlow graph
