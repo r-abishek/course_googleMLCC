@@ -8,18 +8,18 @@
     with tf.Session() as sess:
 
 ### Variables and Constants
-`x = tf.constant(5.2)`  
-`y = tf.Variable([5])`  
-`primes = tf.constant([2,3,5,7,11,13], dtype=tf.int32)`
+    x = tf.constant(5.2)
+    y = tf.Variable([5])
+    primes = tf.constant([2,3,5,7,11,13], dtype=tf.int32)
 
 ### Variables and Assigning
-`y = tf.Variable([0])`  
-`y = y.assign([5])`  
+    y = tf.Variable([0])
+    y = y.assign([5])
 
 ### Running a session after initializing variables (needs global variables initializer)
-`with tf.Session() as sess:`  
-	`initialization = tf.global_variables_initializer()`  
-	`print y.eval()`
+    with tf.Session() as sess:
+    	initialization = tf.global_variables_initializer()
+    	print y.eval()
 
 ### Creating a graph and using it as default before initiating a session
 `g = tf.Graph()`  
