@@ -117,6 +117,8 @@
 * tf.global_variables_initializer()
 * tf.Graph()
 	* tf.Graph().as_default()
+* tf.logging()
+	* tf.logging.set_verbosity(tf.logging.ERROR)
 * tf.matmul()
 * tf.python()
 	* tf.python.data()
