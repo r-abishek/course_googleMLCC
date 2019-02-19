@@ -1,13 +1,13 @@
 # TensorFlow Introduction Notes
 
 ## Basics
-`import tensorflow as tf`
-`c = tf.constant('Hello, world!')`
+`import tensorflow as tf`  
+`c = tf.constant('Hello, world!')`  
 `with tf.Session() as sess:`
 
 ## Variables and Constants
-`x = tf.constant(5.2)
-y = tf.Variable([5])
+`x = tf.constant(5.2)  
+y = tf.Variable([5])  
 primes = tf.constant([2,3,5,7,11,13], dtype=tf.int32)`
 
 # Variables and Assigning
