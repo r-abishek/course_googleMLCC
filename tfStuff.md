@@ -3,9 +3,9 @@
 ## From MLCC Google
 
 ### Basics
-`import tensorflow as tf`  
-`c = tf.constant('Hello, world!')`  
-`with tf.Session() as sess:`
+    import tensorflow as tf
+    c = tf.constant('Hello, world!')
+    with tf.Session() as sess:
 
 ### Variables and Constants
 `x = tf.constant(5.2)`  
