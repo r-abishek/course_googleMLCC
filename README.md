@@ -44,3 +44,7 @@
 * Calculate the size of a model
 * Apply L1 regularization to reduce the size of a model by increasing sparsity
 
+### 12_feature_crosses.ipynb
+* Improve a linear regression model  with the addition of synthetic features
+* Introduce one-hot encoding, binning and feature crosses
+
