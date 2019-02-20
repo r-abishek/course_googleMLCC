@@ -102,8 +102,12 @@
     	optimizer=my_optimizer
     )
 
+### Using tf.feature_column.bucketized_column()
+    bucketized_latitude = tf.feature_column.bucketized_column(latitude, boundaries=get_quantile_based_boundaries(training_examples["latitude"], 10))
+    bucketized_housing_median_age = tf.feature_column.bucketized_column(housing_median_age, boundaries=get_quantile_based_boundaries(training_examples["housing_median_age"], 7))
 
-
+### Using tf.feature_column.crossed_column() to cross two or more features
+    long_x_lat = tf.feature_column.crossed_column(set([bucketized_longitude, bucketized_latitude]), hash_bucket_size=1000)
 
 
 
@@ -124,6 +128,8 @@
 		* tf.estimator.LinearClassifier.evaluate()
 * tf.feature_column()
 	* tf.feature_column.numeric_column()
+	* tf.feature_column.bucketized_column()
+	* tf.feature_column.crossed_column()
 * tf.global_variables_initializer()
 * tf.Graph()
 	* tf.Graph().as_default()
