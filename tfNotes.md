@@ -94,7 +94,13 @@
     weight = linear_regressor.get_variable_value('linear/linear_model/total_rooms/weights')[0]
     bias = linear_regressor.get_variable_value('linear/linear_model/bias_weights')
 
-
+### Using FtrlOptimizer for L1 regularization (for better results than standard gradient descent)
+    my_optimizer = tf.train.FtrlOptimizer(learning_rate=learning_rate, l1_regularization_strength=regularization_strength)
+    my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, 5.0)
+    linear_classifier = tf.estimator.LinearClassifier(
+    	feature_columns=feature_columns,
+    	optimizer=my_optimizer
+    )
 
 
 
@@ -112,6 +118,10 @@
 	* tf.estimator.LinearRegressor()
 		* tf.estimator.LinearRegressor.train()
 		* tf.estimator.LinearRegressor.predict()
+	* tf.estimator.LinearClassifier()
+		* tf.estimator.LinearClassifier.train()
+		* tf.estimator.LinearClassifier.predict()
+		* tf.estimator.LinearClassifier.evaluate()
 * tf.feature_column()
 	* tf.feature_column.numeric_column()
 * tf.global_variables_initializer()
@@ -134,6 +144,7 @@
 	* tf.Session.run()
 * tf.train()
 	* tf.train.GradientDescentOptimizer()
+	* tf.train.FtrlOptimizer()
 * tf.Variable()
 	* tf.Variable.assign()
 	* tf.Variable.eval() (inside a session)
