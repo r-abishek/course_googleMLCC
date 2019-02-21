@@ -1,6 +1,6 @@
-# TensorFlow Notes
+# TensorFlow Notes from MLCC - Google
 
-## From MLCC Google
+## Notes as code-snippets extracted from examples
 
 ### Basics
     import tensorflow as tf
@@ -109,10 +109,33 @@
 ### Using tf.feature_column.crossed_column() to cross two or more features
     long_x_lat = tf.feature_column.crossed_column(set([bucketized_longitude, bucketized_latitude]), hash_bucket_size=1000)
 
+### Creating the DNNRegressor object
+    my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, 5.0)
+    dnn_regressor = tf.estimator.DNNRegressor(
+    	feature_columns=construct_feature_columns(training_examples),
+    	hidden_units=hidden_units,
+    	optimizer=my_optimizer
+    )
+
+### Training and predicting on the DNNRegressor model
+    dnn_regressor.train(
+    	input_fn=training_input_fn,
+    	steps=steps_per_period
+    )
+    training_predictions = dnn_regressor.predict(input_fn=predict_training_input_fn)
+    training_predictions = np.array([item['predictions'][0] for item in training_predictions])    
+    validation_predictions = dnn_regressor.predict(input_fn=predict_validation_input_fn)
+    validation_predictions = np.array([item['predictions'][0] for item in validation_predictions])
 
 
 
-### A few tf API functions
+
+
+
+
+
+
+## A few tf API functions
 * tf.add()
 * tf.constant()
 * tf.contrib()
@@ -126,6 +149,9 @@
 		* tf.estimator.LinearClassifier.train()
 		* tf.estimator.LinearClassifier.predict()
 		* tf.estimator.LinearClassifier.evaluate()
+	* tf.estimator.DNNRegressor()
+		* tf.estimator.DNNRegressor.train()
+		* tf.estimator.DNNRegressor.predict()
 * tf.feature_column()
 	* tf.feature_column.numeric_column()
 	* tf.feature_column.bucketized_column()
@@ -151,6 +177,8 @@
 * tf.train()
 	* tf.train.GradientDescentOptimizer()
 	* tf.train.FtrlOptimizer()
+	* tf.train.AdagradOptimizer()
+	* tf.train.GradientDescentOptimizer()
 * tf.Variable()
 	* tf.Variable.assign()
 	* tf.Variable.eval() (inside a session)
