@@ -48,3 +48,6 @@
 * Improve a linear regression model  with the addition of synthetic features
 * Introduce one-hot encoding, binning and feature crosses
 
+### 13_improving_neural_net_performance.ipynb
+* Improve performance of a neural network by normalizing features and applying various optimization algorithms
+
