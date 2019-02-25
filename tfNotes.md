@@ -127,6 +127,28 @@
     validation_predictions = dnn_regressor.predict(input_fn=predict_validation_input_fn)
     validation_predictions = np.array([item['predictions'][0] for item in validation_predictions])
 
+### Using tf.io, tf.data for parsing training and test data in an input pipeline 
+		def _parse_function(record):
+			features = {
+				"terms": tf.VarLenFeature(dtype=tf.string), # terms are strings of varying lengths
+				"labels": tf.FixedLenFeature(shape=[1], dtype=tf.float32) # labels are 0 or 1
+			}
+			parsed_features = tf.parse_single_example(record, features)
+			terms = parsed_features['terms'].values
+			labels = parsed_features['labels']
+			return  {'terms':terms}, labels
+
+		# Create the Dataset object.
+		ds = tf.data.TFRecordDataset(train_path)
+		# Map features and labels with the parse function.
+		ds = ds.map(_parse_function)
+		# Pad and batch each field of the dataset to whatever size necessary
+		ds = ds.padded_batch(25, ds.output_shapes)
+		ds = ds.repeat(num_epochs)
+		# Get next batch of data
+		features, labels = ds.make_one_shot_iterator().get_next()
+
+### Using DNNClassifier 
 
 
 
@@ -136,36 +158,58 @@
 
 
 ## A few tf API functions
-* tf.add()
-* tf.constant()
-* tf.contrib()
-	* tf.contrib.estimator()
+* tf
+	* tf.constant()
+	* tf.Graph
+		* tf.Graph.as_default()
+	* tf.reshape()
+* tf.contrib
+	* tf.contrib.estimator
 		* tf.contrib.estimator.clip_gradients_by_norm()
-* tf.estimator()
-	* tf.estimator.LinearRegressor()
+* tf.data
+	* tf.data.TFRecordDataset
+		* tf.data.TFRecordDataset.map()
+		* tf.data.padded_batch()
+		* tf.data.repeat()
+		* tf.data.make_one_shot_iterator()
+		* tf.data.get_next()
+* tf.estimator
+	* tf.estimator.LinearRegressor
 		* tf.estimator.LinearRegressor.train()
 		* tf.estimator.LinearRegressor.predict()
-	* tf.estimator.LinearClassifier()
+	* tf.estimator.LinearClassifier
 		* tf.estimator.LinearClassifier.train()
 		* tf.estimator.LinearClassifier.predict()
 		* tf.estimator.LinearClassifier.evaluate()
-	* tf.estimator.DNNRegressor()
+	* tf.estimator.DNNRegressor
 		* tf.estimator.DNNRegressor.train()
 		* tf.estimator.DNNRegressor.predict()
-	* tf.estimator.DNNClassifier()
+	* tf.estimator.DNNClassifier
 		* tf.estimator.DNNClassifier.train()
 		* tf.estimator.DNNClassifier.predict()
 		* tf.estimator.DNNClassifier.get_variable_value()
-* tf.feature_column()
+* tf.feature_column
 	* tf.feature_column.numeric_column()
 	* tf.feature_column.bucketized_column()
 	* tf.feature_column.crossed_column()
-* tf.global_variables_initializer()
-* tf.Graph()
-	* tf.Graph().as_default()
+	* tf.feature_column.indicator_column()
+	* tf.feature_column.categorical_column_with_vocabulary_list()
+	* tf.feature_column.embedding_column()
+* tf.initializers
+	* tf.initializers.global_variables() # or tf.global_variables_initializer()
+* tf.io()
+	* tf.io.VarLenFeature()
+	* tf.io.FixedLenFeature()
+	* tf.io.parse_single_example()
+* tf.keras()
+	* tf.keras.utils()
+		* tf.keras.utils.get_file()
+* tf.linalg
+	* tf.linalg.matmul() # tf.matmul()
 * tf.logging()
 	* tf.logging.set_verbosity(tf.logging.ERROR)
-* tf.matmul()
+* tf.math
+	* tf.math.add() # Or tf.add()
 * tf.python()
 	* tf.python.data()
 		* tf.python.data.Dataset()
