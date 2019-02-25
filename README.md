@@ -51,3 +51,7 @@
 ### 13_improving_neural_net_performance.ipynb
 * Improve performance of a neural network by normalizing features and applying various optimization algorithms
 
+### 14_intro_to_sparse_data_and_embeddings.ipynb
+* Convert movie review strings to a sparse feature vector
+* Implement a sentiment analysis linear model and upgrade it to a DNN model using an embedded vector projecting the data into two dimensions
+* Visualize the embedding to see what the model learned about the relationships
