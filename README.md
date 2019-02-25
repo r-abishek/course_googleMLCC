@@ -55,3 +55,8 @@
 * Convert movie review strings to a sparse feature vector
 * Implement a sentiment analysis linear model and upgrade it to a DNN model using an embedded vector projecting the data into two dimensions
 * Visualize the embedding to see what the model learned about the relationships
+
+### 15_intro_to_fairness.ipynb
+* Learn about different types of biases
+* Identify different sources of bias before training
+* Evaluate model performance by sub-group rather than in aggregate
