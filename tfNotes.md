@@ -148,7 +148,55 @@
 		# Get next batch of data
 		features, labels = ds.make_one_shot_iterator().get_next()
 
-### Using DNNClassifier 
+### Using tf.keras.layers, tf.keras.Model, tf.keras.optimizers, tf.keras.preprocessing.image
+
+from tensorflow.keras import layers
+from tensorflow.keras import Model
+from tensorflow.keras.optimizers import RMSprop
+
+img_input = layers.Input(shape=(150, 150, 3))
+x = layers.Conv2D(16, 3, activation='relu')(img_input)
+x = layers.MaxPooling2D(2)(x)
+x = layers.Conv2D(32, 3, activation='relu')(x)
+x = layers.MaxPooling2D(2)(x)
+x = layers.Conv2D(64, 3, activation='relu')(x)
+x = layers.MaxPooling2D(2)(x)
+
+x = layers.Flatten()(x)
+x = layers.Dense(512, activation='relu')(x)
+output = layers.Dense(1, activation='sigmoid')(x)
+model = Model(img_input, output)
+model.summary()
+
+model.compile(loss='binary_crossentropy',
+	optimizer=RMSprop(lr=0.001),
+	metrics=['acc']
+)
+
+train_datagen = ImageDataGenerator(rescale=1./255)
+test_datagen = ImageDataGenerator(rescale=1./255)
+
+train_generator = train_datagen.flow_from_directory(
+	train_dir,  # This is the source directory for training images
+    target_size=(150, 150),  # All images will be resized to 150x150
+    batch_size=20,
+    # Since we use binary_crossentropy loss, we need binary labels
+    class_mode='binary')
+
+validation_generator = test_datagen.flow_from_directory(
+    validation_dir,
+    target_size=(150, 150),
+    batch_size=20,
+    class_mode='binary')
+
+history = model.fit_generator(
+    train_generator,
+    steps_per_epoch=100,  # 2000 images = batch_size * steps
+    epochs=15,
+    validation_data=validation_generator,
+    validation_steps=50,  # 1000 images = batch_size * steps
+	verbose=2
+)
 
 
 
@@ -163,72 +211,96 @@
 	* tf.Graph
 		* tf.Graph.as_default()
 	* tf.reshape()
+	* tf.Session()
+		* tf.Session.as_default()
+		* tf.Session.run()
+	* tf.Variable()
+		* tf.Variable.assign()
+		* tf.Variable.eval() (inside a session)
+	* tf.zeros
 * tf.contrib
 	* tf.contrib.estimator
 		* tf.contrib.estimator.clip_gradients_by_norm()
 * tf.data
+	* tf.data.Dataset
+		* tf.data.Dataset.batch()
+		* tf.data.Dataset.from_tensor_slices()
+		* tf.data.Dataset.make_one_shot_iterator()
+		* tf.data.Dataset.repeat()
+		* tf.data.Dataset.shuffle()
+	* tf.data.Iterator
+		* tf.data.Iterator.get_next()
 	* tf.data.TFRecordDataset
+		* tf.data.TFRecordDataset.make_one_shot_iterator()
 		* tf.data.TFRecordDataset.map()
-		* tf.data.padded_batch()
-		* tf.data.repeat()
-		* tf.data.make_one_shot_iterator()
-		* tf.data.get_next()
+		* tf.data.TFRecordDataset.padded_batch()
+		* tf.data.TFRecordDataset.repeat()
 * tf.estimator
-	* tf.estimator.LinearRegressor
-		* tf.estimator.LinearRegressor.train()
-		* tf.estimator.LinearRegressor.predict()
 	* tf.estimator.LinearClassifier
-		* tf.estimator.LinearClassifier.train()
-		* tf.estimator.LinearClassifier.predict()
 		* tf.estimator.LinearClassifier.evaluate()
-	* tf.estimator.DNNRegressor
-		* tf.estimator.DNNRegressor.train()
-		* tf.estimator.DNNRegressor.predict()
+		* tf.estimator.LinearClassifier.predict()
+		* tf.estimator.LinearClassifier.train()
+	* tf.estimator.LinearRegressor
+		* tf.estimator.LinearRegressor.predict()
+		* tf.estimator.LinearRegressor.train()
 	* tf.estimator.DNNClassifier
-		* tf.estimator.DNNClassifier.train()
-		* tf.estimator.DNNClassifier.predict()
 		* tf.estimator.DNNClassifier.get_variable_value()
+		* tf.estimator.DNNClassifier.predict()
+		* tf.estimator.DNNClassifier.train()
+	* tf.estimator.DNNRegressor
+		* tf.estimator.DNNRegressor.predict()
+		* tf.estimator.DNNRegressor.train()
 * tf.feature_column
-	* tf.feature_column.numeric_column()
 	* tf.feature_column.bucketized_column()
-	* tf.feature_column.crossed_column()
-	* tf.feature_column.indicator_column()
 	* tf.feature_column.categorical_column_with_vocabulary_list()
+	* tf.feature_column.crossed_column()
 	* tf.feature_column.embedding_column()
+	* tf.feature_column.indicator_column()
+	* tf.feature_column.numeric_column()
 * tf.initializers
 	* tf.initializers.global_variables() # or tf.global_variables_initializer()
-* tf.io()
-	* tf.io.VarLenFeature()
-	* tf.io.FixedLenFeature()
+* tf.io
+	* tf.io.FixedLenFeature
 	* tf.io.parse_single_example()
-* tf.keras()
-	* tf.keras.utils()
+	* tf.io.VarLenFeature
+* tf.keras
+	* tf.keras.layers
+		* tf.keras.layers.Conv2D()
+		* tf.keras.layers.Dense()
+		* tf.keras.layers.Flatten()
+		* tf.keras.layers.MaxPooling2D()
+	* tf.keras.models
+		* tf.keras.models.Model
+			* tf.keras.models.Model.compile()
+			* tf.keras.models.Model.fit_generator()
+			* tf.keras.models.Model.layers
+			* tf.keras.models.Model.output
+			* tf.keras.models.Model.summary()
+	* tf.keras.optimizers
+		* tf.keras.optimizers.Adagrad
+		* tf.keras.optimizers.Adam
+		* tf.keras.optimizers.RMSprop
+	* tf.keras.preprocessing
+		* tf.keras.preprocessing.image
+			* tf.keras.preprocessing.image.ImageDataGenerator
+				* tf.keras.preprocessing.image.ImageDataGenerator.flow()
+				* tf.keras.preprocessing.image.ImageDataGenerator.flow_from_directory()
+			* tf.keras.preprocessing.image.img_to_array
+			* tf.keras.preprocessing.image.load_img
+
+	* tf.keras.utils
 		* tf.keras.utils.get_file()
 * tf.linalg
 	* tf.linalg.matmul() # tf.matmul()
-* tf.logging()
+* tf.logging
 	* tf.logging.set_verbosity(tf.logging.ERROR)
+* tf.manip
+	* tf.manip.reshape()
 * tf.math
 	* tf.math.add() # Or tf.add()
-* tf.python()
-	* tf.python.data()
-		* tf.python.data.Dataset()
-			* tf.python.data.Dataset.from_tensor_slices()
-				* tf.python.data.Dataset.from_tensor_slices.batch()
-				* tf.python.data.Dataset.from_tensor_slices.repeat()
-				* tf.python.data.Dataset.from_tensor_slices.shuffle()
-				* tf.python.data.Dataset.from_tensor_slices.make_one_shot_iterator()
-				* tf.python.data.Dataset.from_tensor_slices.get_next()
-* tf.reshape()
-* tf.Session()
-	* tf.Session.run()
 * tf.train()
-	* tf.train.GradientDescentOptimizer()
-	* tf.train.FtrlOptimizer()
 	* tf.train.AdagradOptimizer()
+	* tf.train.FtrlOptimizer()
 	* tf.train.GradientDescentOptimizer()
-* tf.Variable()
-	* tf.Variable.assign()
-	* tf.Variable.eval() (inside a session)
-* tf.zeros()
+
 
