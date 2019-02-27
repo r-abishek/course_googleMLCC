@@ -1,12 +1,12 @@
-# machineLearningCrashCourse : Machine Learning Crash Course - Google
+# Machine Learning Crash Course - Google
 
-## Files
+## Course Contents
 
-### 01_intro_to_pandas.ipynb
+### [01_intro_to_pandas.ipynb](https://github.com/r-abishek/course_googleMLCC/blob/master/01_intro_to_pandas.ipynb)
 * Gives an introduction to pandas, Series and DataFrame data structures
 * Imports CSV data to a pandas DataFrame and runs operations
 
-### 02_hello_world.ipynb
+### [02_hello_world.ipynb](https://github.com/r-abishek/course_googleMLCC/blob/master/02_hello_world.ipynb)
 * HelloWorld TensorFlow program
 
 ### 03_tensorflow_programming_concepts.ipynb
